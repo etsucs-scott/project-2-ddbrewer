@@ -2,7 +2,7 @@ using System;
 
 namespace WarGame.Core
 {
-    public class Card : IComparable<Card>
+    public class Card : IComparable<Card> // Using IComparable interface to be able to use CompareTo() method
     {
         public Suit Suit { get; }
         public Rank Rank { get; }
