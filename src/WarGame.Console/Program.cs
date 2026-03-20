@@ -1,13 +1,22 @@
-﻿using System;
+﻿// To sanity check: dotnet run --project src/WarGame.Console
+
+using System;
 using WarGame.Core;
 
-// To sanity check: dotnet run --project src/WarGame.Console
-// Anything below before project is finished is to check if x thing works
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<string> playerNames = new List<string> { "Dakota", "Jehon", "Chris", "Leon" };
 
-Card card1 = new Card(Suit.Hearts, Rank.Ace);
-Card card2 = new Card(Suit.Spades, Rank.King);
+        Deck deck = new Deck();
+        WarEngine game = new WarEngine(playerNames);
+        game.DistributeDeck(deck);
 
-Console.WriteLine(card1);
-Console.WriteLine(card2);
-
-Console.WriteLine(card1.CompareTo(card2));
+        Console.WriteLine("After dealing the cards: ");
+        Console.WriteLine("Dakota has " + game.GetPlayerHands().GetHand("Dakota").Count + " cards.");
+        Console.WriteLine("Jehon has " + game.GetPlayerHands().GetHand("Jehon").Count + " cards.");
+        Console.WriteLine("Chris has " + game.GetPlayerHands().GetHand("Chris").Count + " cards.");
+        Console.WriteLine("Leon has " + game.GetPlayerHands().GetHand("Leon").Count + " cards.");
+    }
+}

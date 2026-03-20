@@ -1,12 +1,36 @@
 using System;
-using System.Collections.Generic;
 
 namespace WarGame.Core
 {
-    public class Card : IComparable<Card> // Using IComparable interface to be able to use CompareTo() method
+    public enum Suit
     {
-        public Suit Suit { get; }
-        public Rank Rank { get; }
+        Hearts,
+        Diamonds,
+        Clubs,
+        Spades
+    }
+
+    public enum Rank
+    {
+        Two = 2, // Explicit, so everything after auto-increments.
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+        Ace
+    }
+
+    public class Card : IComparable<Card> // Implementing IComparable interface for the CompareTo() method.
+    {
+        public Suit Suit { get; private set; }
+        public Rank Rank { get; private set; }
 
         public Card(Suit suit, Rank rank)
         {
@@ -14,40 +38,15 @@ namespace WarGame.Core
             Rank = rank;
         }
 
+        public override string ToString()
+        {
+            return $"{Rank} of {Suit}.";
+        }
+
         public int CompareTo(Card other)
         {
             if (other == null) return 1;
             return this.Rank.CompareTo(other.Rank);
         }
-
-        public override string ToString()
-        {
-            return $"{Rank} of {Suit}";
-        }
     }
-}
-
-public enum Suit
-{
-    Hearts,
-    Diamonds,
-    Clubs,
-    Spades
-}
-
-public enum Rank
-{
-    Two = 2, // Explicit, so everything after auto-increments
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Ten,
-    Jack,
-    Queen,
-    King,
-    Ace
 }
