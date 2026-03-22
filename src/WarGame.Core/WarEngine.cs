@@ -7,9 +7,9 @@ namespace WarGame.Core
     {
         private PlayerHands playerHands;
         private PlayedCards playedCards;
-        private List<string> playerOrder;
+        private List<string> playerOrder; // Made for allowing un-even # of players to split extra cards to 1st in line
 
-        public WarEngine(List<string> playerNames)
+        public WarEngine(List<string> playerNames) // Creates game engine and makes empty hands for every player
         {
             playerHands = new PlayerHands();
             playedCards = new PlayedCards();
@@ -21,7 +21,7 @@ namespace WarGame.Core
             }
         }
 
-    public void DistributeDeck(Deck deck)
+    public void DistributeDeck(Deck deck) // Deals deck in Round Robin order
         {
             List<string> playerNames = new List<string>(playerHands.GetAllHands().Keys);
 
@@ -39,12 +39,12 @@ namespace WarGame.Core
             }
         }
 
-        public PlayerHands GetPlayerHands()
+        public PlayerHands GetPlayerHands() // Lets other parts see player hand counts
         {
             return playerHands;
         }
 
-        private List<string> GetActivePlayers() // Loops through players and returns only the ones with more than 1 card
+        private List<string> GetActivePlayers() // Returns all players with at least 1 card, so any 0 card players are "eliminated"
         {
             List<string> activePlayers = new List<string>();
 
@@ -74,7 +74,7 @@ namespace WarGame.Core
             return highestRank;
         }
 
-        private List<string> GetTiedPlayers(Rank highestRank)
+        private List<string> GetTiedPlayers(Rank highestRank) // Returns all plays whose card is the highest rank played, if multiple players then triggers a tiebreaker
         {
             List<string> tiedPlayers = new List<string>();
 
@@ -89,7 +89,7 @@ namespace WarGame.Core
             return tiedPlayers;
         }
 
-        private void AddToPot(List<Card> pot)
+        private void AddToPot(List<Card> pot) // Adds played cards to the pot
         {
             foreach (var entry in playedCards.GetAll())
             {
@@ -97,7 +97,7 @@ namespace WarGame.Core
             }
         }
 
-        private void AwardPotToWinner(string winner, List<Card> pot)
+        private void AwardPotToWinner(string winner, List<Card> pot) // Gives every card in the pot to the winner, adding to the back of their hand
         {
             Hand winningHand = playerHands.GetHand(winner);
 
@@ -107,7 +107,7 @@ namespace WarGame.Core
             }
         }
 
-        public void PlayRound()
+        public void PlayRound() // Utilizes everything to play one full round of the War game
         {
             List<Card> pot = new List<Card>();
             List<string> currentPlayers = GetActivePlayers();
@@ -171,7 +171,7 @@ namespace WarGame.Core
             }
         }
 
-        public void PlayGame(int maxRounds)
+        public void PlayGame(int maxRounds) // Made to allow the looping of the game until the win conditions / round limit are met
         {
             int round = 0;
 
@@ -218,7 +218,7 @@ namespace WarGame.Core
             }
         }
 
-        public int CountActivePlayers()
+        public int CountActivePlayers() // Keeps track of how many players have at least 1 card left
         {
             int count = 0;
 
@@ -233,7 +233,7 @@ namespace WarGame.Core
             return count;
         }
 
-        public List<string> GetWinner()
+        public List<string> GetWinner() // Returns the player(s) with the largest hand, used when round limit is reached
         {
             List<string> winners = new List<string>();
             int highestHandCount = -1;
@@ -257,8 +257,8 @@ namespace WarGame.Core
             return winners;
         }
 
-        public int GetTotalCardCount() // To see if it always says 52, really just for debugging
-        {
+        public int GetTotalCardCount() // Returns the total number of cards across all players
+        {                              // Mainly as a debugging tool to make sure cards are not lost/duplicated
             int total = 0;
 
             foreach (var entry in playerHands.GetAllHands())
