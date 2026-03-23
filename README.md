@@ -1,43 +1,57 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/hZIAsDPT)
-# CSCI 1260 — Project
 
-## Project Instructions
-All project requirements, grading criteria, and submission details are provided on **D2L**.  
-Refer to D2L as the *authoritative source* for this assignment.
-
-This repository is intentionally minimal. You are responsible for:
-- Creating the solution and projects
-- Designing the class structure
-- Implementing the required functionality
+# CSCI 1260 — Project #2
 
 ---
 
-## Getting Started (CLI)
+# War Card Game (C#)
 
-You may use **Visual Studio**, **VS Code**, or the **terminal**.
+## Project Overview:
+This project is a C#-based implementation of the car game War built using object-oriented programming design.
+The program supports multiple players (tested up to 4), handles ties using a shared pot system, and runs until a winner holds all the cards or the round limit is reached (10,000).
 
-### Create a solution
-```bash
-dotnet new sln -n ProjectName
-```
+## How to Build and Run (Command Line):
+1. Open the terminal
+2. Build the project: dotnet build
+3. Run the program: dotnet run --project src/WarGame.Console
 
-### Create a project (example: console app)
-```bash
-dotnet new console -n ProjectName.App
-```
+---
 
-### Add the project to the solution
-```bash
-dotnet sln add ProjectName.App
-```
+## How the War Game Works:
 
-### Build and run
-```bash
-dotnet build
-dotnet run --project ProjectName.App
-```
+- A standard card deck of 52 cards is created and shuffled.
+- Cards are dealt in round-robin order to all players.
+- If cards do not divide evenly, the first players receive the extra cards.
 
-## Notes
-- Commit early and commit often.
-- Your repository history is part of your submission.
-- Update this README with build/run instructions specific to your project.
+- Each Round:
+- All players with cards reveal their top card.
+- The highest card rank wins (suits are ignored).
+- If there is a tie:
+- Only tied players continue to a tiebreaker round.
+- Each tied player reveals another top card. This continues until no longer tied.
+- All cards played in a round go into a shared pot.
+- The round winner takes the entire pot.
+- Players with no cards remaining are no longer able to play.
+
+- Game Ending:
+- The game ends when either one player has all 52 cards,
+- Or the maximum number of rounds is reached (10,000).
+- If the round limit is reached:
+- The player with the most cards held wins, or
+- If multiple players share the same number of cards the game is declared a draw.
+
+## Player Setup:
+
+- Currently the number of players is hardcoded into the Program.cs file: List<string> playerNames = new List<string> { "Player 1", "Player 2", "Player 3", "Player 4" };
+- To change the number of players, add or remove names from the list of strings.
+
+---
+
+## Known Limitations:
+
+- Player count is hardcoded and not based on user input (prompt or command line).
+
+---
+
+## Submission Note:
+
+This project was completed as part of the CSCI 1260 course and is included in the classroom GitHub repo as required.
